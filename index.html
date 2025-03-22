@@ -9,10 +9,10 @@
 <body>
     <div class="container">
         <div class="header">Список задач</div>
-        <div class="task-input">
-            <input type="text" placeholder="Название задачи...">
-            <button>+ Добавить</button>
-        </div>
+        <form class="task-input" id="taskForm">
+            <input type="text" id="taskInput" placeholder="Название задачи..." required>
+            <button type="submit">+ Добавить</button>
+        </form>
         <div class="columns">
             <div class="column backlog">
                 <h3>Бэклог</h3>
