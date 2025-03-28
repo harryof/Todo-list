@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мотин Глеб Александрович - Список задач</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="header">
+        <h1>Список задач</h1>
+    </header>
+
+    <main class="container">
+        <form class="task-input" id="taskForm">
+            <input type="text" id="taskInput" placeholder="Название задачи..." required>
+            <button type="submit">+ Добавить</button>
+        </form>
+
+        <section class="columns">
+            <article class="column backlog">
+                <h2>Бэклог</h2>
+                <ul class="task-list">
+                    <li class="task">Выучить JS</li>
+                    <li class="task">Выучить React</li>
+                    <li class="task">Сделать домашку</li>
+                </ul>
+            </article>
+
+            <article class="column in-progress">
+                <h2>В процессе</h2>
+                <ul class="task-list">
+                    <li class="task">Выпить смузи</li>
+                    <li class="task">Попить воды</li>
+                </ul>
+            </article>
+
+            <article class="column done">
+                <h2>Готово</h2>
+                <ul class="task-list">
+                    <li class="task">Позвонить маме</li>
+                    <li class="task">Погладить кота</li>
+                </ul>
+            </article>
+
+            <article class="column trash">
+                <h2>Корзина</h2>
+                <ul class="task-list">
+                    <li class="task">Сходить погулять</li>
+                    <li class="task">Прочитать Войну и Мир</li>
+                </ul>
+                <button class="clear-btn">× Очистить</button>
+            </article>
+        </section>
+    </main>
+</body>
+</html>
