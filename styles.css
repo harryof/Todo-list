@@ -1,9 +1,29 @@
+/* Общие стили */
 body {
   font-family: Arial, sans-serif;
   background-color: #e9f0f7;
   margin: 0;
   padding: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
+
+/* Шапка */
+.header {
+  background: #2577fd;
+  color: white;
+  padding:15px 0;
+  text-align: left;
+  padding-left: 20px;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 24px;
+}
+
+/* Основной контент */
 .container {
   width: 80%;
   margin: 20px auto;
@@ -11,25 +31,24 @@ body {
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  flex-grow: 1;
 }
-.header {
-  background: #2577fd;
-  color: white;
-  padding: 10px;
-  font-size: 20px;
-  font-weight: bold;
-}
+
+/* Форма добавления задачи */
 .task-input {
+  width: 33.3%;
   display: flex;
   gap: 10px;
   margin: 15px 0;
 }
+
 .task-input input {
   flex: 1;
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 5px;
 }
+
 .task-input button {
   background: #2577fd;
   color: white;
@@ -38,32 +57,52 @@ body {
   border-radius: 5px;
   cursor: pointer;
 }
+
+/* Колонки с задачами */
 .columns {
   display: flex;
   gap: 15px;
 }
+
 .column {
   flex: 1;
   padding: 10px;
   background: #f5f5f5;
   border-radius: 5px;
 }
-.column h3 {
+
+.column h2 {
   text-align: center;
   padding: 5px;
   border-radius: 5px;
+  font-size: 18px;
+  margin-top: 0;
 }
-.backlog h3 { background: #b0b0b0; }
-.in-progress h3 { background: #5b9bff; }
-.done h3 { background: #6edb7d; }
-.trash h3 { background: #f79292; }
+
+/* Стили для разных колонок */
+.backlog h2 { background: #b0b0b0; color: white; }
+.in-progress h2 { background: #5b9bff; color: white; }
+.done h2 { background: #6edb7d; color: white; }
+.trash h2 { background: #f79292; color: white; }
+
+/* Список задач */
+.task-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  min-height: 100px;
+}
+
 .task {
   background: white;
   padding: 10px;
   margin: 5px 0;
   border-radius: 5px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
 }
+
+/* Кнопка очистки */
 .clear-btn {
   display: block;
   width: 100%;
@@ -73,4 +112,5 @@ body {
   padding: 10px;
   border-radius: 5px;
   cursor: pointer;
+  margin-top: 10px;
 }
