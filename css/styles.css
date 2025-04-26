@@ -1,0 +1,199 @@
+/* === Общие стили === */
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Lucida Casual", sans-serif;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #eef4fb;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 0.9rem;
+}
+
+/* === Заголовок === */
+.board-app__header {
+  background-color: #0056b3;
+  width: 100%;
+  color: white;
+  padding: 20px;
+  text-align: left;
+}
+
+.board-app__header h1 {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.add-task {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 20px 0 20px 20px;
+}
+
+.add-task__form {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  width: 100%;
+  max-width: 500px;
+}
+
+.form-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.add-task__input-wrapper {
+  display: flex;
+  gap: 15px;
+  width: 100%;
+}
+
+.add-task__input-wrapper input {
+  flex-grow: 1;
+  padding: 15px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.add-task__button {
+  padding: 12px 25px;
+  background-color: #0056b3;
+  color: white;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+/* === Доска задач === */
+.task-board {
+  display: flex;
+  flex-direction: row;
+  gap: 25px; 
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 1400px; 
+  margin-top: 30px;
+}
+
+/* === Колонки задач === */
+.task-category {
+  flex: 1;
+  min-width: 300px;
+  max-width: 350px;
+}
+
+/* === Заголовки категорий === */
+.category-title {
+  border-radius: 8px;
+  padding: 12px 16px;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+/* === Карточки задач === */
+.task-item {
+  background: white;
+  padding: 18px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  border-left: 5px solid;
+  font-size: 1rem;
+  width: 100%;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+  list-style: none;
+}
+
+/* === Цвета категорий === */
+.backlog {
+  --category-bg-color: #e3e3e3;
+  --category-text-color: #6c757d;
+}
+
+.processing {
+  --category-bg-color: #cde0ff;
+  --category-text-color: #3069c7;
+}
+
+.done {
+  --category-bg-color: #ccf2d1;
+  --category-text-color: #5aaf5a;
+}
+
+.basket {
+  --category-bg-color: #f9d6d6;
+  --category-text-color: #b84d50;
+}
+
+/* === Применение стилей к категориям === */
+.backlog .category-title,
+.processing .category-title,
+.done .category-title,
+.basket .category-title {
+  background-color: var(--category-bg-color);
+  color: var(--category-text-color);
+}
+
+.backlog .task-item,
+.processing .task-item,
+.done .task-item,
+.basket .task-item {
+  border-left-color: var(--category-text-color);
+}
+
+.task-item.task--empty {
+  background: rgba(200, 200, 200, 0.3); 
+  padding: 18px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 1rem;
+  color: #333;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* === Кнопка очистки корзины === */
+.clear-basket-button { /* Было .clear-btn */
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+  padding: 15px;
+  width: 100%;
+  margin-top: 10px;
+}
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  font-size: 1.5rem;
+  color: #555;
+}
+
+.board__no-tasks {
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.5; }
+  50% { opacity: 1; }
+  100% { opacity: 0.5; }
+}
