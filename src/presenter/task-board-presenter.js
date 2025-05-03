@@ -11,7 +11,7 @@ export default class TasksBoardPresenter {
   #boardContainer = null;
   #tasksModel = null;
   #tasksBoardComponent = new TaskBoardComponent();
-  #loadingComponent = new LoadingViewComponent(); // Добавляем компонент загрузки
+  #loadingComponent = new LoadingViewComponent(); 
   #isInitialized = false;
   #clearBasketComponent = null;
 
@@ -22,7 +22,6 @@ export default class TasksBoardPresenter {
   }
 
   async init() {
-    // Создаем новый индикатор загрузки для каждого вызова
     const loadingComponent = new LoadingViewComponent();
     render(loadingComponent, this.#boardContainer);
 
@@ -30,7 +29,6 @@ export default class TasksBoardPresenter {
       await this.#tasksModel.init();
       this.#isInitialized = true;
       
-      // Удаляем индикатор после успешной загрузки
       loadingComponent.removeElement();
       
       this.#clearBoard();
@@ -38,20 +36,18 @@ export default class TasksBoardPresenter {
     } catch (error) {
       console.error('Ошибка инициализации:', error);
       
-      // Удаляем индикатор при ошибке
       loadingComponent.removeElement();
       
       this.#clearBoard();
       this.#boardContainer.innerHTML = '<p class="error">Ошибка загрузки данных</p>';
     }
   }
-  // Отрисовка отдельной задачи
+
   #renderTask(task, container) {
     const taskComponent = new TaskComponent({ task });
     render(taskComponent, container);
   }
 
-  // Отрисовка списка задач по статусу
   #renderTasksList(status, container) {
     const tasksForStatus = this.#tasksModel.getTasksByStatus(status);
     if (tasksForStatus.length === 0) {
@@ -62,14 +58,12 @@ export default class TasksBoardPresenter {
       });
     }
   }
-
-  // Отрисовка заглушки когда нет задач
   #renderPlaceholder(container) {
     const placeholderComponent = new PlaceholderComponent();
     render(placeholderComponent, container);
   }
 
-  // Главная отрисовка доски
+
   #renderBoard() {
     render(this.#tasksBoardComponent, this.#boardContainer);
 
@@ -84,14 +78,15 @@ export default class TasksBoardPresenter {
       this.#renderTasksList(status, taskListComponent.element);
 
       if (status === Status.BASKET) {
+        // Инициализируем кнопку с правильным состоянием
+        const hasBasketTasks = this.#tasksModel.getTasksByStatus(Status.BASKET).length > 0;
         this.#clearBasketComponent = new ClearBasketComponent({
-          onClick: this.#handleClearBasketClick.bind(this) // Используем новый обработчик
+          onClick: this.#handleClearBasketClick.bind(this),
+          isDisabled: !hasBasketTasks 
         });
         render(this.#clearBasketComponent, taskListComponent.element);
-        this.#updateBasketButtonState();
       }
     });
-  
   }
   #updateBasketButtonState() {
     if (this.#clearBasketComponent) {
@@ -106,25 +101,27 @@ export default class TasksBoardPresenter {
       case UserAction.DELETE_TASK:
         this.#clearBoard();
         this.#renderBoard();
-        this.#updateBasketButtonState(); // Обновляем состояние кнопки при изменениях
+        this.#updateBasketButtonState();
         break;
-
+  
       case UpdateType.INIT:
         if (!this.#isInitialized) {
           this.#isInitialized = true;
           this.#clearBoard();
           this.#renderBoard();
+          this.#updateBasketButtonState();
         }
         break;
     }
   }
+  
 
-  // Очистка доски
+
   #clearBoard() {
     this.#tasksBoardComponent.element.innerHTML = '';
   }
 
-  // Метод создания новой задачи
+
   async createTask() {
     const taskTitle = document.querySelector('#add-task').value.trim();
     if (!taskTitle) {
@@ -132,24 +129,29 @@ export default class TasksBoardPresenter {
     }
     
     try {
-      await this.#tasksModel.addTask(taskTitle); // Используем новый метод модели
+      await this.#tasksModel.addTask(taskTitle); 
       document.querySelector('#add-task').value = '';
     } catch(err) {
       console.error('Ошибка при добавлении задачи:', err);
-      // Можно добавить отображение ошибки пользователю
     }
   }
 
   async #handleClearBasketClick() {
     try {
+  
+      this.#clearBasketComponent.toggleDisabled(true);
+      
       await this.#tasksModel.clearBasketTasks();
+      
+    
     } catch (err) {
       console.error('Ошибка при очистке корзины:', err);
-      // Можно добавить отображение ошибки пользователю
+      // Разблокируем кнопку при ошибке
+      this.#updateBasketButtonState();
     }
   }
 
-  // Метод для очистки корзины
+
   clearBasket() {
     this.#tasksModel.deleteTask(UpdateType.MAJOR, { status: Status.BASKET });
   }
@@ -166,19 +168,18 @@ export default class TasksBoardPresenter {
     this.#renderBoard();
   }
 
-  // Обработчик перетаскивания задач
+async #handleTaskDrop(taskId, newStatus, beforeId) {
+  try {
+    await this.#tasksModel.updateTaskStatus(taskId, newStatus);
+    
   
-  
-  async #handleTaskDrop(taskId, newStatus, beforeId) {
-    try {
-      await this.#tasksModel.updateTaskStatus(taskId, newStatus);
-      // Опционально: обработка beforeId если нужно сохранять позицию
-      if (beforeId) {
-        // Логика обновления позиции задачи
-      }
-    } catch(err) {
-      console.error('Ошибка при обновлении статуса задачи:', err);
-      // Можно добавить отображение ошибки пользователю
+    if (newStatus === Status.BASKET || 
+        this.#tasksModel.getTask(taskId).status === Status.BASKET) {
+      this.#updateBasketButtonState();
     }
+    
+  } catch(err) {
+    console.error('Ошибка при обновлении статуса задачи:', err);
   }
+}
 }
