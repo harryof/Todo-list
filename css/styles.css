@@ -197,3 +197,9 @@ body {
   50% { opacity: 1; }
   100% { opacity: 0.5; }
 }
+
+.clear-basket-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background-color: #f1f1f1;
+}
