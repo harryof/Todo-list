@@ -1,9 +1,12 @@
 import { AbstractComponent } from '../framework/view/abstract-component.js';
 
-function createClearBasketTemplate(disabled = false) {
+
+
+function createClearBasketTemplate(isDisabled = false) {
   return `
-    <button class="clear-basket-button" ${disabled ? 'disabled' : ''}>
+    <button class="clear-basket-button" ${isDisabled ? 'disabled' : ''}>
       Очистить корзину
+      ${isDisabled ? '<span class="visually-hidden">(недоступно)</span>' : ''}
     </button>
   `;
 }
@@ -12,16 +15,16 @@ export default class ClearBasketComponent extends AbstractComponent {
   #handleClick = null;
   #isDisabled = false;
 
-  constructor({ onClick }) {
+  constructor({ onClick, isDisabled = false }) {
     super();
     this.#handleClick = onClick;
+    this.#isDisabled = isDisabled;
   }
 
   get template() {
     return createClearBasketTemplate(this.#isDisabled);
   }
 
-  // Новый метод для переключения состояния кнопки
   toggleDisabled(isDisabled) {
     if (this.#isDisabled !== isDisabled) {
       this.#isDisabled = isDisabled;
@@ -32,7 +35,6 @@ export default class ClearBasketComponent extends AbstractComponent {
     }
   }
 
-  // Оптимизированная версия получения элемента
   get element() {
     const element = super.element;
     element.addEventListener('click', this.#handleClick);
